@@ -37,7 +37,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView>
     <View>
-      <Text>Email</Text>
+      <Text className='text-5xl'>Email</Text>
       <TextInput value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
       <Text>Password</Text>
       <TextInput value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry />

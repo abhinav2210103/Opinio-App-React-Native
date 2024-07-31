@@ -19,8 +19,7 @@ export default function SignupScreen() {
         fullName,
         email,
         password
-      });
-
+      })
       if (response.data.success) {
         Alert.alert('Success', 'User created successfully. Please verify your email.');
         router.push('/login');

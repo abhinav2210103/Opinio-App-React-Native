@@ -3,6 +3,7 @@ import { View, Text, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import { EXPO_APP_BASE_URL } from '@env';
+import Blogs from '../../components/Blogs';
 
 export default function HomeScreen() {
   const [topic, setTopic] = useState(null);
@@ -65,21 +66,7 @@ export default function HomeScreen() {
           <Text>No topic available</Text>
         )}
       </View>
-      <View className='mt-5'>
-        <Text className='text-xl font-bold'>Recent Blogs:</Text>
-        <ScrollView>
-          {blogs.length > 0 ? (
-            blogs.map((blog) => (
-              <View key={blog._id} className='border-b border-gray-300 p-2 mb-3'>
-                <Text className='font-bold'>{blog.createdBy.fullName}</Text>
-                <Text className='text-gray-600'>{blog.thoughts}</Text>
-              </View>
-            ))
-          ) : (
-            <Text>No comments available</Text>
-          )}
-        </ScrollView>
-      </View>
+      <Blogs blogs={blogs}/>
     </SafeAreaView>
   );
 }

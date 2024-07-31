@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React from 'react'
+import { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { EXPO_APP_BASE_URL } from '@env';
 import { useRouter } from 'expo-router';
+
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${EXPO_APP_BASE_URL}/user/signin`, { email, password });
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signin`, { email, password });
       if (response.data.msg === 'User Logged In') {
         const token = response.headers['set-cookie'][0].split(';')[0].split('=')[1];
         login(token);
@@ -31,7 +32,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView>
       <View>
-        <Text>Email</Text>
+        <Text className='text-3xl'>Email dalo bhai</Text>
         <TextInput value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
         <Text>Password</Text>
         <TextInput value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry />

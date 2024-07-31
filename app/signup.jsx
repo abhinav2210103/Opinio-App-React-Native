@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React from 'react'
+import { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { EXPO_APP_BASE_URL } from '@env';
 import { useRouter } from 'expo-router';
 
 export default function SignupScreen() {
@@ -15,7 +15,7 @@ export default function SignupScreen() {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post(`${EXPO_APP_BASE_URL}/user/signup`, {
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signup`, {
         fullName,
         email,
         password

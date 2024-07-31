@@ -1,6 +1,8 @@
+import React from 'react'
+import 'react-native-reanimated';
 import { Redirect } from "expo-router";
 import { Text, View } from "react-native";
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 
 export default function Index() {

@@ -1,5 +1,5 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import { View, Text } from 'react-native'
 import { Tabs } from 'expo-router'
 import { FontAwesome5,Ionicons,MaterialIcons } from '@expo/vector-icons';
 

@@ -1,9 +1,8 @@
-import React from 'react'
-import  { useEffect, useState } from 'react';
-import { View, Text, Image, ActivityIndicator, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import Blogs from '../../components/Blogs';
+import Topic from '../../components/Topic';
 
 export default function HomeScreen() {
   const [topic, setTopic] = useState(null);
@@ -46,26 +45,11 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView className='p-5'>
-    <View className='mb-3'>
-      <Text className='text-3xl font-bold'>Welcome</Text>
-    </View>
-    <View>
-      <Text className='text-xl'>Hey, Today's Topic is:</Text>
-      {topic ? (
-        <>
-          <Text className='text-2xl font-bold'>{topic.name}</Text>
-          {topic.imageUrl && (
-            <Image
-              source={{ uri: topic.imageUrl }}
-              style={{ width: '100%', height: 200, marginTop: 10, resizeMode: 'cover' }}
-            />
-          )}
-        </>
-      ) : (
-        <Text>No topic available</Text>
-      )}
-    </View>
-    <Blogs blogs={blogs}/>
-  </SafeAreaView>
+      <View className='mb-3'>
+        <Text className='text-3xl font-bold'>Welcome</Text>
+      </View>
+      <Topic topic={topic} />
+      <Blogs blogs={blogs} />
+    </SafeAreaView>
   );
 }

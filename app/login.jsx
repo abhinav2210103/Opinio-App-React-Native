@@ -5,6 +5,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import Logo from '../assets/images/Logo'
 
 
 export default function LoginScreen() {
@@ -37,7 +38,7 @@ export default function LoginScreen() {
         <Text>Password</Text>
         <TextInput value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry />
         <Button title="Login" onPress={handleLogin} />
-        
+        <Logo/>
         <TouchableOpacity onPress={() => router.push('/signup')}>
           <Text style={{ color: 'blue', marginTop: 20 }}>Don't have an account? Sign up</Text>
         </TouchableOpacity>

@@ -5,7 +5,8 @@ import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import Logo from '../assets/images/Logo'
+import Logo from '../assets/images/Logo';
+import LoginButton from '../assets/images/LoginButton'
 
 
 export default function LoginScreen() {
@@ -32,13 +33,18 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView>
-      <View>
-        <Text className='text-3xl'>Email dalo bhai</Text>
-        <TextInput value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" />
-        <Text>Password</Text>
-        <TextInput value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry />
-        <Button title="Login" onPress={handleLogin} />
-        <Logo/>
+      <View className='bg-cover bg-[#131232] h-screen'>
+        <View className='flex justify-center items-center'>
+      <Logo width={120} height={120} className=''/>
+      </View>
+        <Text className='text-3xl text-white'>Email dalo bhai</Text>
+        <TextInput value={email} onChangeText={setEmail} placeholder="Email" keyboardType="email-address" className='border-2 border-white' />
+        <Text className='text-white'>Password</Text>
+        <TextInput value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry className='border-2 border-white' />
+        <View className='relative flex justify-center items-center mt-10'>
+        <LoginButton onPress={handleLogin}/>
+        <Text className='absolute text-[#FFFFFF] text-base font-black'>Login</Text>
+        </View>
         <TouchableOpacity onPress={() => router.push('/signup')}>
           <Text style={{ color: 'blue', marginTop: 20 }}>Don't have an account? Sign up</Text>
         </TouchableOpacity>

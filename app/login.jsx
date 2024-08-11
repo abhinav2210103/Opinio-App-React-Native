@@ -35,7 +35,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView className='flex-1'>
       <LinearGradient
-        colors={['hsla(242, 64%, 20%, 1)', 'hsla(256, 47%, 31%, 1)']}
+        colors={['hsla(242, 47%, 13%, 1)', 'hsla(256, 31%, 23%, 1)']}   
         className='flex-1'
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}

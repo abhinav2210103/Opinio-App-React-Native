@@ -14,7 +14,6 @@ export default function SignupScreen() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useContext(AuthContext);
   const [passwordVisible, setPasswordVisible] = useState(false); 
   const router = useRouter();
 
@@ -40,14 +39,14 @@ export default function SignupScreen() {
    return (
     <SafeAreaView className='flex-1'>
       <LinearGradient
-        colors={['hsla(242, 64%, 20%, 1)', 'hsla(256, 47%, 31%, 1)']}
+        colors={['hsla(242, 47%, 13%, 1)', 'hsla(256, 31%, 23%, 1)']}
         className='flex-1'
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
         <View className='flex items-center h-full justify-center'>
           <View className='flex items-center justify-center'>
-            <Text className='text-7xl text-[#FFFFFF] mb-10 pt-5' style={{ fontFamily: 'baloo-semi' }}>
+            <Text className='text-7xl text-[#FFFFFF]  pt-5' style={{ fontFamily: 'baloo-semi' }}>
               Sign Up
             </Text>
           </View>
@@ -107,7 +106,7 @@ export default function SignupScreen() {
 
           <View className='relative flex justify-center items-center mt-10'>
             <LoginButton onPress={handleSignup} />
-            <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Sign Up</Text>
+            <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Send Verification Link</Text>
           </View>
 
           <TouchableOpacity onPress={() => router.push('/login')}>

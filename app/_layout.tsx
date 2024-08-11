@@ -3,8 +3,6 @@ import 'react-native-reanimated';
 import { Stack } from 'expo-router';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { useFonts } from 'expo-font';
-import { unsubscribeFromKeyboardEvents } from 'react-native-reanimated/lib/typescript/reanimated2/core';
-
 export default function Layout() {
   useFonts(
     {
@@ -25,6 +23,5 @@ export default function Layout() {
         <Stack.Screen name="signup" />
       </Stack>
       </AuthProvider>
-
   );
 }

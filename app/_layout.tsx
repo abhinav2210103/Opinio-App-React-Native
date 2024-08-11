@@ -8,7 +8,11 @@ import { unsubscribeFromKeyboardEvents } from 'react-native-reanimated/lib/types
 export default function Layout() {
   useFonts(
     {
-      'mulish':require('../assets/fonts/Mulish-Regular.ttf')
+      'mulish':require('../assets/fonts/Mulish-Regular.ttf'),
+      'nunito':require('../assets/fonts/Nunito-Regular.ttf'),
+      'baloo-semi':require('../assets/fonts/Baloo2-SemiBold.ttf'),
+      'mulish-black':require('../assets/fonts/Mulish-Black.ttf'),
+      'nunito-bold':require('../assets/fonts/Nunito-Bold.ttf'),
     }
   )
   

@@ -38,7 +38,9 @@ export default function LoginScreen() {
       start={{ x: 0, y: 1 }}
       end={{ x: 0, y: 0 }}>
         <View>
-          <Text className=''>
+          <Text className='text-2xl' style={{
+            fontFamily:'mulish'
+          }}>
             Sign In
           </Text>
         </View>

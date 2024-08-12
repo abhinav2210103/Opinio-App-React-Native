@@ -9,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Feather from '@expo/vector-icons/Feather';
 import LoginButton from '../assets/images/LoginButton';
+import AppLoader from '@/components/AppLoader';
 
 export default function SignupScreen() {
   const [fullName, setFullName] = useState('');
@@ -25,19 +26,18 @@ export default function SignupScreen() {
         fullName,
         email,
         password
-      });
-  
-      if (response.data.success) {
-        ToastAndroid.show('User created successfully. Please verify your email.', ToastAndroid.LONG);
+      });    
+      const { success, message } = response.data;
+      if (success) {
+        ToastAndroid.show(message || 'User created successfully. Please verify your email.', ToastAndroid.LONG);
         router.push('/login');
       } else {
-        ToastAndroid.show(response.data.message || 'An error occurred', ToastAndroid.LONG);
-        Alert.alert('Error', response.data.message || 'An error occurred');
+        ToastAndroid.show(message || 'An error occurred during signup.', ToastAndroid.LONG);
       }
     } catch (error) {
       console.error('Error during signup:', error);
-      ToastAndroid.show('An error occurred during signup.', ToastAndroid.LONG);
-      Alert.alert('Error', 'An error occurred during signup.');
+      const errorMessage = error.response?.data?.message || 'An error occurred during signup.';
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     } finally {
       setLoading(false);
     }
@@ -112,14 +112,12 @@ export default function SignupScreen() {
           </View>
 
           <View className='relative flex justify-center items-center mt-10'>
-            <LoginButton onPress={handleSignup} />
+            <TouchableOpacity onPress={handleSignup} className='flex justify-center items-center'>
+            <LoginButton  />
             <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Send Verification Link</Text>
+            </TouchableOpacity>
           </View>
-          {loading && (
-            <View className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-              <ActivityIndicator size="large" color="#FFFFFF" />
-            </View>
-          )}
+          {loading && <AppLoader />}
           <TouchableOpacity onPress={() => router.push('/login')}>
             <Text className='text-[#FFFFFF] mt-5 pb-2' style={{ fontFamily: 'nunito' }}>
               Already have an account? <Text className='underline'>Log in</Text>

@@ -19,31 +19,30 @@ export default function LoginScreen() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    setLoading(true)
-    console.log(loading);
+    setLoading(true);
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signin`, { email, password });
-      if (response.data.msg === 'User Logged In') {
-        const setCookieHeader = response.headers['set-cookie'];
-        if (setCookieHeader && setCookieHeader.length > 0) {
-          const token = setCookieHeader[0].split(';')[0].split('=')[1];
-          login(token);
-          router.push('/welcome');
+        const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signin`, { email, password });
+
+        if (response.data.msg === 'User Logged In') {
+            const setCookieHeader = response.headers['set-cookie'];
+            if (setCookieHeader && setCookieHeader.length > 0) {
+                const token = setCookieHeader[0].split(';')[0].split('=')[1];
+                login(token);
+                router.push('/welcome');
+            } else {
+                ToastAndroid.show('Failed to retrieve authentication token', ToastAndroid.LONG);
+            }
         } else {
-          ToastAndroid.show('Failed to retrieve authentication token', ToastAndroid.LONG);
+            ToastAndroid.show(response.data.error || 'Invalid Credentials', ToastAndroid.LONG);
         }
-      } else {
-        ToastAndroid.show('Invalid Credentials', ToastAndroid.LONG);
-      }
     } catch (error) {
-      console.error('Error during login:', error);
-      const errorMessage = error.response?.data?.error || 'An error occurred during login.';
-      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
-      setLoading(false)
+        console.error('Error during login:', error);
+        const errorMessage = error.response?.data?.error || 'An error occurred during login.';
+        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     } finally {
-      setLoading(false)
+        setLoading(false);
     }
-  };
+};
 
   return (
     <SafeAreaView className='flex-1'>

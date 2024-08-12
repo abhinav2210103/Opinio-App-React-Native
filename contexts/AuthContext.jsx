@@ -21,11 +21,13 @@ const AuthProvider = ({ children }) => {
   const login = async (token) => {
     await AsyncStorage.setItem('token', token);
     setUser({ token });
+    console.log("User Logged IN")
   };
 
   const logout = async () => {
     await AsyncStorage.removeItem('token');
     setUser(null);
+    console.log("user logout");
   };
 
   return (

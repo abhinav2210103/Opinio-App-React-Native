@@ -5,10 +5,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Logo from '../assets/images/Logo';
 import LoginButton from '../assets/images/LoginButton';
+import { AuthContext } from '../contexts/AuthContext';
+import { useContext } from 'react';
 
 
 export default function Welcome() {
   const router = useRouter();
+  const { logout } = useContext(AuthContext);
+  const handlelogout = () => {
+    logout();
+  }
 
   return (
     <SafeAreaView className='flex-1'>
@@ -35,11 +41,14 @@ export default function Welcome() {
           </TouchableOpacity>
           <TouchableOpacity
                 onPress={() => router.push('/signup')}
-                className='bg-[#00000000] p-4 border-[#700CCF] border-2 w-72 rounded-3xl mt-8 mb-20'
+                className='bg-[#00000000] p-3 border-[#700CCF] border-2 w-72 rounded-3xl mt-8 mb-20'
                 >
                   <Text className='text-[#FFFFFF] text-lg text-center ' style={{ fontFamily: 'nunito-bold' }}>
                     Sign Up
                   </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handlelogout}>
+                  <Text>Logout</Text>
                 </TouchableOpacity>
             </View>
       </LinearGradient>

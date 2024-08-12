@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Alert, TouchableOpacity ,ToastAndroid,ActivityIndicator } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,27 +15,34 @@ export default function SignupScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSignup = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signup`, {
         fullName,
         email,
         password
-      })
+      });
+  
       if (response.data.success) {
-        Alert.alert('Success', 'User created successfully. Please verify your email.');
+        ToastAndroid.show('User created successfully. Please verify your email.', ToastAndroid.LONG);
         router.push('/login');
       } else {
-        Alert.alert('Error', response.data.message);
+        ToastAndroid.show(response.data.message || 'An error occurred', ToastAndroid.LONG);
+        Alert.alert('Error', response.data.message || 'An error occurred');
       }
     } catch (error) {
       console.error('Error during signup:', error);
+      ToastAndroid.show('An error occurred during signup.', ToastAndroid.LONG);
       Alert.alert('Error', 'An error occurred during signup.');
+    } finally {
+      setLoading(false);
     }
   };
-
+  
    return (
     <SafeAreaView className='flex-1'>
       <LinearGradient
@@ -108,7 +115,11 @@ export default function SignupScreen() {
             <LoginButton onPress={handleSignup} />
             <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Send Verification Link</Text>
           </View>
-
+          {loading && (
+            <View className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+              <ActivityIndicator size="large" color="#FFFFFF" />
+            </View>
+          )}
           <TouchableOpacity onPress={() => router.push('/login')}>
             <Text className='text-[#FFFFFF] mt-5 pb-2' style={{ fontFamily: 'nunito' }}>
               Already have an account? <Text className='underline'>Log in</Text>

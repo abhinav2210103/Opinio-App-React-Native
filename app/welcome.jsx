@@ -7,8 +7,6 @@ import Logo from '../assets/images/Logo';
 import LoginButton from '../assets/images/LoginButton';
 import { AuthContext } from '../contexts/AuthContext';
 import { useContext } from 'react';
-
-
 export default function Welcome() {
   const router = useRouter();
   const { logout } = useContext(AuthContext);

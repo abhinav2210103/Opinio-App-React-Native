@@ -21,5 +21,5 @@ export default function Index() {
     return <Text>Loading...</Text>;
   }
 
-  return <Redirect href={user ? '/home' : '/welcome'} />;
+  return <Redirect href={user ? '/login' : '/welcome'} />;
 }

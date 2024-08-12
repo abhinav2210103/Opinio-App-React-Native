@@ -95,7 +95,9 @@ export default function LoginScreen() {
               </TouchableOpacity>
             </View>
             <View className='flex justify-center items-end mr-2 mt-2'>
+              <TouchableOpacity onPress={() => router.push('/forgotpassword')}>
               <Text className='text-[#CD5C5C]' style={{ fontFamily: 'nunito' }}>Forgot Password?</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -104,7 +106,6 @@ export default function LoginScreen() {
               <LoginButton />
               <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Submit</Text>
             </TouchableOpacity>
-            
           </View>
 
           <TouchableOpacity onPress={() => router.push('/signup')}>

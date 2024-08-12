@@ -13,10 +13,16 @@ export default function HomeScreen() {
   useEffect(() => {
     const fetchCurrentTopic = async () => {
       try {
-        const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`);
+        const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`, {
+          withCredentials: true,
+        });
         setTopic(response.data);
-        const blogsResponse = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/blog/all`);
+        console.log(response.data);
+        const blogsResponse = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/blog/all`, {
+          withCredentials: true,
+        });
         setBlogs(blogsResponse.data.blogs);
+        console.log(blogsResponse.data.blogs);
       } catch (err) {
         console.error('Error fetching current topic:', err);
         setError('Failed to fetch topic');
@@ -24,6 +30,7 @@ export default function HomeScreen() {
         setLoading(false);
       }
     };
+
     fetchCurrentTopic();
   }, []);
 
@@ -48,7 +55,7 @@ export default function HomeScreen() {
       <View className='mb-3'>
         <Text className='text-3xl font-bold'>Welcome</Text>
       </View>
-      <Topic topic={topic} />
+       <Topic topic={topic} />
       <Blogs blogs={blogs} />
     </SafeAreaView>
   );

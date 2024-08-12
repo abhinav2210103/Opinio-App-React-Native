@@ -27,8 +27,10 @@ export default function LoginScreen() {
             const setCookieHeader = response.headers['set-cookie'];
             if (setCookieHeader && setCookieHeader.length > 0) {
                 const token = setCookieHeader[0].split(';')[0].split('=')[1];
+                axios.defaults.headers.common['Authorization']  = `Bearer ${token}`;
+                console.log(token);
                 login(token);
-                router.push('/welcome');
+                router.push('/home');
             } else {
                 ToastAndroid.show('Failed to retrieve authentication token', ToastAndroid.LONG);
             }

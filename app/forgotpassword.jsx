@@ -3,9 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, Alert, ToastAndroid, SafeAreaV
 import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 import Fontisto from '@expo/vector-icons/Fontisto';
-import Feather from '@expo/vector-icons/Feather';
 import AppLoader from '@/components/AppLoader';
 import LoginButton from '../assets/images/LoginButton';
+import { useRouter } from 'expo-router';
 
 export default function Forgotpassword() {
   const [step, setStep] = useState(0);
@@ -14,6 +14,7 @@ export default function Forgotpassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleNext = async () => {
     if (step === 0) {
@@ -45,7 +46,6 @@ export default function Forgotpassword() {
         setLoading(false);
       }
     } else if (step === 2) {
-      // Reset Password
       if (newPassword !== confirmPassword) {
         Alert.alert('Passwords do not match');
         return;
@@ -55,6 +55,7 @@ export default function Forgotpassword() {
         const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/resetforgotPassword`, { email, otp, newPassword });
         if (response.data.message) {
           ToastAndroid.show('Password reset successfully', ToastAndroid.LONG);
+          router.push('/login');
         } else {
           ToastAndroid.show(response.data.message || 'Error', ToastAndroid.LONG);
         }

@@ -4,12 +4,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
-
 export default function profile () {
   const router = useRouter();
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
     router.replace('/welcome');
   };
   return (

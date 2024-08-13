@@ -26,6 +26,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     await AsyncStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
     setUser(null);
     console.log("user logout");
   };

@@ -4,6 +4,7 @@ import { Redirect } from "expo-router";
 import { Text, View } from "react-native";
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
+import AppLoader from '@/components/AppLoader';
 
 export default function Index() {
   const { user } = useContext(AuthContext);
@@ -18,7 +19,7 @@ export default function Index() {
   }, []);
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <AppLoader />;;
   }
 
   return <Redirect href={user ? '/home' : '/welcome'} />;

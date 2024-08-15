@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, TextInput, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -25,7 +25,7 @@ export default function Profile() {
       try {
         const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/user/profile`);
         setUserProfile(response.data);
-        setNewFullName(response.data.fullName); 
+        setNewFullName(response.data.fullName);
       } catch (error) {
         console.error('Error fetching user profile:', error);
         Alert.alert('Error', 'Failed to fetch user profile');
@@ -34,6 +34,23 @@ export default function Profile() {
 
     fetchUserProfile();
   }, []);
+
+  useEffect(() => {
+    const backAction = () => {
+      if (step === 1) {
+        setStep(0);
+        return true; // Prevent default behavior (going back to the home screen)
+      }
+      return false; // Allow default behavior
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove(); // Cleanup on component unmount
+  }, [step]);
 
   const handleSaveChanges = async () => {
     try {
@@ -82,7 +99,7 @@ export default function Profile() {
 
                 <View className='bg-[#4682B4] rounded-2xl h-20 justify-center items-center'>
                   <Text className='text-white text-lg' style={{ fontFamily: 'nunito-bold' }}>
-                    Total Comments: {userProfile.totalComments}
+                    Total Blogs: {userProfile.totalBlogs}
                   </Text>
                 </View>
 
@@ -104,7 +121,7 @@ export default function Profile() {
               <TextInput
                 value={newFullName}
                 onChangeText={setNewFullName}
-                placeholder="Current Username"
+                placeholder={userProfile.fullName || "Current Username"}
                 className='bg-white rounded-2xl h-12 mb-4 px-4'
               />
 
@@ -127,12 +144,6 @@ export default function Profile() {
               <TouchableOpacity onPress={handleSaveChanges} className='bg-[#228B22] rounded-2xl h-12 justify-center items-center'>
                 <Text className='text-white text-lg' style={{ fontFamily: 'nunito-bold' }}>
                   Save Changes
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => setStep(0)} className='mt-4 bg-gray-500 rounded-2xl h-12 justify-center items-center'>
-                <Text className='text-white text-lg' style={{ fontFamily: 'nunito-bold' }}>
-                  Back
                 </Text>
               </TouchableOpacity>
             </View>

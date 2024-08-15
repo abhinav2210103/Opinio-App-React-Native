@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, ToastAndroid, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,11 +10,22 @@ import { useRouter } from 'expo-router';
 export default function Forgotpassword() {
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '']);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+
+  const handleOtpChange = (text, index) => {
+    const newOtp = [...otp];
+    newOtp[index] = text;
+    setOtp(newOtp);
+    if (text && index < 3) {
+      inputRefs[index + 1].current.focus();
+    }
+  };
 
   const handleNext = async () => {
     if (step === 0) {
@@ -28,13 +39,14 @@ export default function Forgotpassword() {
         }
       } catch (error) {
         ToastAndroid.show('An error occurred. Please try again.', ToastAndroid.LONG);
+        console.log(error);
       } finally {
         setLoading(false);
       }
     } else if (step === 1) {
       setLoading(true);
       try {
-        const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/otpverify`, { email, otp });
+        const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/otpverify`, { email, otp: otp.join('') });
         if (response.data.message) {
           setStep(2);
         } else {
@@ -52,7 +64,7 @@ export default function Forgotpassword() {
       }
       setLoading(true);
       try {
-        const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/resetforgotPassword`, { email, otp, newPassword });
+        const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/resetforgotPassword`, { email, otp: otp.join(''), newPassword });
         if (response.data.message) {
           ToastAndroid.show('Password reset successfully', ToastAndroid.LONG);
           router.push('/login');
@@ -76,7 +88,7 @@ export default function Forgotpassword() {
         end={{ x: 0, y: 0 }}
       >
         <View className='flex-1 justify-center items-center'>
-        <View className='flex items-center'>
+          <View className='flex items-center'>
             <Text className='text-5xl text-[#FFFFFF] mb-10 pt-5' style={{ fontFamily: 'baloo-semi' }}>
               Forgot Password
             </Text>
@@ -85,75 +97,80 @@ export default function Forgotpassword() {
             <View className='w-[80%]'>
               <Text className='text-2xl text-[#FFFFFF] mb-4' style={{ fontFamily: 'nunito-bold' }}>Enter your email</Text>
               <View className='flex-row items-center border-2 border-[#228B22] rounded-2xl h-14'>
-              <View className='pl-3'>
-                <Fontisto name="email" size={24} color='white' />
+                <View className='pl-3'>
+                  <Fontisto name="email" size={24} color='white' />
+                </View>
+                <TextInput
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  className='flex-1 text-white px-3 h-full text-xl'
+                />
               </View>
-              <TextInput
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                className='flex-1 text-white px-3 h-full text-xl'
-              />
+              <View className='relative flex justify-center items-center mt-10'>
+                <TouchableOpacity onPress={handleNext} className='flex justify-center items-center'>
+                  <LoginButton />
+                  <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Submit</Text>
+                </TouchableOpacity>
               </View>
-            <View className='relative flex justify-center items-center mt-10'>
-            <TouchableOpacity onPress={handleNext} className='flex justify-center items-center'>
-              <LoginButton />
-              <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Submit</Text>
-            </TouchableOpacity>
-          </View>
             </View>
           )}
           {step === 1 && (
             <View className='w-[80%]'>
               <Text className='text-2xl text-[#FFFFFF] mb-4' style={{ fontFamily: 'nunito-bold' }}>Verify OTP</Text>
-              <View className='flex-row items-center border-2 border-[#228B22] rounded-2xl h-14'>
-              <TextInput
-                 value={otp}
-                 onChangeText={setOtp}
-                 keyboardType="numeric"
-                className='flex-1 text-white px-3 h-full text-xl'
-              />
+              <View className='flex-row justify-between mb-5'>
+                {otp.map((digit, index) => (
+                  <TextInput
+                    key={index}
+                    value={digit}
+                    onChangeText={(text) => handleOtpChange(text, index)}
+                    keyboardType="numeric"
+                    maxLength={1}
+                    className='flex-1 text-white text-center px-3 h-14 border-2 border-[#228B22] rounded-2xl mx-1 text-xl'
+                    ref={inputRefs[index]}
+                  />
+                ))}
               </View>
               <TouchableOpacity onPress={handleNext} className='flex justify-center items-center mt-5'>
-              <LoginButton />
-              <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Verify OTP</Text>
-            </TouchableOpacity>
+                <LoginButton />
+                <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Verify OTP</Text>
+              </TouchableOpacity>
             </View>
           )}
           {step === 2 && (
             <View className='w-[80%]'>
               <Text className='text-base text-[#FFFFFF] mb-2' style={{ fontFamily: 'nunito-bold' }}>
-               New Password
+                New Password
               </Text>
               <View className='flex-row items-center border-2 border-[#228B22] rounded-2xl h-14'>
-              <View className='pl-3'>
-                <Fontisto name="locked" size={24} color="white" />
-              </View>
-              <TextInput
-                value={newPassword}
-                onChangeText={setNewPassword}
-                secureTextEntry
-                className='flex-1 text-white px-3 h-full text-xl'
-              />
+                <View className='pl-3'>
+                  <Fontisto name="locked" size={24} color="white" />
+                </View>
+                <TextInput
+                  value={newPassword}
+                  onChangeText={setNewPassword}
+                  secureTextEntry
+                  className='flex-1 text-white px-3 h-full text-xl'
+                />
               </View>
               <Text className='text-base text-[#FFFFFF] my-2' style={{ fontFamily: 'nunito-bold' }}>
-               Confirm New Password
+                Confirm New Password
               </Text>
               <View className='flex-row items-center border-2 border-[#228B22] rounded-2xl h-14'>
-              <View className='pl-3'>
-                <Fontisto name="locked" size={24} color="white" />
+                <View className='pl-3'>
+                  <Fontisto name="locked" size={24} color="white" />
+                </View>
+                <TextInput
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  secureTextEntry
+                  className='flex-1 text-white px-3 h-full text-xl'
+                />
               </View>
-              <TextInput
-                 value={confirmPassword}
-                 onChangeText={setConfirmPassword}
-                 secureTextEntry
-                className='flex-1 text-white px-3 h-full text-xl'
-              />
-              </View>
-             <TouchableOpacity onPress={handleNext} className='flex justify-center items-center mt-7'>
-              <LoginButton />
-              <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Submit</Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={handleNext} className='flex justify-center items-center mt-7'>
+                <LoginButton />
+                <Text className='absolute text-[#FFFFFF] text-lg' style={{ fontFamily: 'mulish-black' }}>Submit</Text>
+              </TouchableOpacity>
             </View>
           )}
           {loading && <AppLoader />}

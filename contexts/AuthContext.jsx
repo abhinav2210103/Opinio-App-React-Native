@@ -2,7 +2,6 @@ import React from 'react'
 import { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -26,7 +25,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     await AsyncStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
+    axios.defaults.headers.common['Authorization'] = '';
     setUser(null);
     console.log("user logout");
   };

@@ -17,12 +17,11 @@ export default function HomeScreen() {
           withCredentials: true,
         });
         setTopic(response.data);
-        console.log(response.data);
         const blogsResponse = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/blog/all`, {
           withCredentials: true,
         });
         setBlogs(blogsResponse.data.blogs);
-        console.log(blogsResponse.data.blogs);
+        // console.log(blogsResponse.data.blogs);
       } catch (err) {
         console.error('Error fetching current topic:', err);
         setError('Failed to fetch topic');

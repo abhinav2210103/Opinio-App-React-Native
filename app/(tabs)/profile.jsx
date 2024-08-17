@@ -6,6 +6,7 @@ import {
   Alert,
   TextInput,
   BackHandler,
+  ToastAndroid
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,8 +15,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
 import Likes from "../../assets/images/likes.svg";
 import Comments from "../../assets/images/comments.svg";
-import Edit from '../../assets/images/edit.svg';
-import Privacy from '../../assets/images/privacy.svg'
+import Edit from "../../assets/images/edit.svg";
+import Privacy from "../../assets/images/privacy.svg";
+import LoginButton from "../../assets/images/LoginButton";
+import AppLoader from "../../components/AppLoader";
 
 export default function Profile() {
   const router = useRouter();
@@ -24,6 +27,7 @@ export default function Profile() {
   const [newFullName, setNewFullName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [loading, setLoading] = useState(false); 
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
@@ -33,6 +37,7 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/user/profile`
@@ -42,6 +47,9 @@ export default function Profile() {
       } catch (error) {
         console.error("Error fetching user profile:", error);
         Alert.alert("Error", "Failed to fetch user profile");
+      }
+      finally {
+        setLoading(false);
       }
     };
 
@@ -66,7 +74,10 @@ export default function Profile() {
   }, [step]);
 
   const handleSaveChanges = async () => {
+    setLoading(true);
     try {
+      let apiCalled = false;
+  
       if (newFullName !== userProfile.fullName) {
         const response = await axios.post(
           `${process.env.EXPO_PUBLIC_BASE_URL}/user/resetusername`,
@@ -74,23 +85,35 @@ export default function Profile() {
         );
         if (response.status === 200) {
           setUserProfile((prev) => ({ ...prev, fullName: newFullName }));
-          Alert.alert("Success", "Username updated successfully");
+          ToastAndroid.show("Username updated successfully", ToastAndroid.SHORT);
+          apiCalled = true;
         }
       }
-
+  
       if (newPassword) {
         const response = await axios.post(
           `${process.env.EXPO_PUBLIC_BASE_URL}/user/resetpassword`,
           { currentPassword, newPassword }
         );
         if (response.status === 200) {
-          Alert.alert("Success", "Password updated successfully");
+          ToastAndroid.show("Password updated successfully", ToastAndroid.SHORT);
+          apiCalled = true;
         }
       }
+  
+      if (!apiCalled) {
+        ToastAndroid.show(
+          "Please make changes to your profile before saving.",
+          ToastAndroid.SHORT
+        );
+      }
+  
       setStep(0);
     } catch (error) {
       console.error("Error saving changes:", error);
-      Alert.alert("Error", "Failed to save changes");
+      ToastAndroid.show("Failed to save changes", ToastAndroid.SHORT);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,13 +128,7 @@ export default function Profile() {
         <View className="flex-1 justify-center items-center">
           {step === 0 ? (
             <>
-              <Text
-                className="text-5xl text-white mb-20 pt-4"
-                style={{ fontFamily: "baloo-semi" }}
-              >
-                Profile
-              </Text>
-
+              <Text>Profile</Text>
               <View className="w-[90%] flex flex-row gap-6  items-center justify-center">
                 <LinearGradient
                   colors={[
@@ -190,12 +207,11 @@ export default function Profile() {
                   end={{ x: 1, y: 1 }}
                   className="rounded-xl w-[45%]"
                 >
-                  
                   <TouchableOpacity
                     onPress={() => setStep(1)}
                     className="rounded-2xl h-36 justify-center items-center w-full"
                   >
-                     <Edit/>
+                    <Edit />
                     <Text
                       className="text-[#3BC1F8]/50 text-lg mt-2"
                       style={{ fontFamily: "nunito" }}
@@ -214,7 +230,7 @@ export default function Profile() {
                   className="rounded-xl w-[45%]"
                 >
                   <TouchableOpacity className="rounded-2xl h-36 justify-center items-center w-full">
-                    <Privacy/>
+                    <Privacy />
                     <Text
                       className="text-[#F34751]/50 text-lg mt-2"
                       style={{ fontFamily: "nunito" }}
@@ -227,40 +243,71 @@ export default function Profile() {
             </>
           ) : (
             <View className="w-[80%]">
-              <TextInput
-                value={newFullName}
-                onChangeText={setNewFullName}
-                placeholder={userProfile.fullName || "Current Username"}
-                className="bg-white rounded-xl h-12 mb-4 px-4"
-              />
-
-              <TextInput
-                value={currentPassword}
-                onChangeText={setCurrentPassword}
-                placeholder="Current Password"
-                secureTextEntry
-                className="bg-white rounded-2xl h-12 mb-4 px-4"
-              />
-
-              <TextInput
-                value={newPassword}
-                onChangeText={setNewPassword}
-                placeholder="New Password"
-                secureTextEntry
-                className="bg-white rounded-2xl h-12 mb-4 px-4"
-              />
-
-              <TouchableOpacity
-                onPress={handleSaveChanges}
-                className="bg-[#228B22] rounded-2xl h-12 justify-center items-center"
+              <Text
+                className="text-[#ffffff] text-4xl mb-10"
+                style={{ fontFamily: "nunito-bold" }}
               >
-                <Text
-                  className="text-white text-lg"
-                  style={{ fontFamily: "nunito-bold" }}
+                Edit Your Profile
+              </Text>
+              <Text
+                className="text-[#ffffff] text-base mt-5 mb-1"
+                style={{ fontFamily: "nunito-bold" }}
+              >
+                Edit Your Username
+              </Text>
+
+              <View className="flex-row items-center border-2 border-[#ffffff] rounded-2xl h-14">
+                <TextInput
+                  value={newFullName}
+                  onChangeText={setNewFullName}
+                  placeholder={userProfile.fullName || "Current Username"}
+                  className="flex-1 text-white px-3 h-full text-xl"
+                />
+              </View>
+              <Text
+                className="text-[#ffffff] text-base mt-5 mb-1"
+                style={{ fontFamily: "nunito-bold" }}
+              >
+                Current Password
+              </Text>
+
+              <View className="flex-row items-center border-2 border-[#ffffff] rounded-2xl h-14">
+                <TextInput
+                  value={currentPassword}
+                  onChangeText={setCurrentPassword}
+                  className="flex-1 text-white px-3 h-full text-xl"
+                />
+              </View>
+
+              <Text
+                className="text-[#ffffff] text-base mt-5 mb-1"
+                style={{ fontFamily: "nunito-bold" }}
+              >
+                New Password
+              </Text>
+
+              <View className="flex-row items-center border-2 border-[#ffffff] rounded-2xl h-14">
+                <TextInput
+                  value={newPassword}
+                  onChangeText={setNewPassword}
+                  secureTextEntry
+                  className="flex-1 text-white px-3 h-full text-xl "
+                />
+              </View>
+              <View className="relative flex justify-center items-center mt-10">
+                <TouchableOpacity
+                  onPress={handleSaveChanges}
+                  className="flex justify-center items-center"
                 >
-                  Save Changes
-                </Text>
-              </TouchableOpacity>
+                  <LoginButton />
+                  <Text
+                    className="absolute text-[#FFFFFF] text-lg"
+                    style={{ fontFamily: "mulish-black" }}
+                  >
+                    Submit
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
 
@@ -279,6 +326,7 @@ export default function Profile() {
           )}
         </View>
       </LinearGradient>
+      {loading && <AppLoader />}
     </SafeAreaView>
   );
 }

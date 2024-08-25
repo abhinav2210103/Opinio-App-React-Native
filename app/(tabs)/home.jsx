@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, ActivityIndicator, SafeAreaView,ScrollView } from 'react-native';
 import axios from 'axios';
 import Blogs from '../../components/Blogs';
 import Topic from '../../components/Topic';
+import AppLoader from "../../components/AppLoader";
+
 
 export default function HomeScreen() {
   const [topic, setTopic] = useState(null);
@@ -13,7 +15,7 @@ export default function HomeScreen() {
   useEffect(() => {
     const fetchCurrentTopic = async () => {
       try {
-        const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`, {
+        const response = await axios.get( `${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`, {
           withCredentials: true,
         });
         setTopic(response.data);
@@ -29,17 +31,10 @@ export default function HomeScreen() {
         setLoading(false);
       }
     };
-
     fetchCurrentTopic();
   }, []);
 
-  if (loading) {
-    return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </SafeAreaView>
-    );
-  }
+  {loading && <AppLoader />}
 
   if (error) {
     return (
@@ -55,7 +50,9 @@ export default function HomeScreen() {
         <Text className='text-3xl font-bold'>Welcome</Text>
       </View>
        <Topic topic={topic} />
+       <ScrollView>
       <Blogs blogs={blogs} />
+      </ScrollView>
     </SafeAreaView>
   );
 }

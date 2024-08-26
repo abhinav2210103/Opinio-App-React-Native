@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     elevation: 0,
     shadowOpacity: 0,
-    height: 55,
+    height: 65,
   },
   tabBarIcon: {
     justifyContent: 'center',

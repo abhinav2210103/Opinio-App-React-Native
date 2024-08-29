@@ -31,14 +31,6 @@ export default function History() {
     return <AppLoader />;
   }
 
-  if (error) {
-    return (
-      <SafeAreaView className="flex-1 justify-center items-center">
-        <Text className="text-lg text-red-500">{error}</Text>
-      </SafeAreaView>
-    );
-  }
-
   return (
     <SafeAreaView className="flex-1">
       <LinearGradient
@@ -48,8 +40,8 @@ export default function History() {
         end={{ x: 0, y: 0 }}
       >
           <View className='flex items-center mt-16'>
-            <Text className='text-7xl text-[#FFFFFF] mb-2  pt-5' style={{ fontFamily: 'baloo-semi' }}>
-              History
+            <Text className='text-5xl text-[#FFFFFF] mb-2  pt-5' style={{ fontFamily: 'baloo-semi' }}>
+         Previous Topics
             </Text>
           </View>
         <ScrollView className="p-6">

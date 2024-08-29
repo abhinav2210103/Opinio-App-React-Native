@@ -47,12 +47,17 @@ export default function History() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
+          <View className='flex items-center mt-16'>
+            <Text className='text-7xl text-[#FFFFFF] mb-2  pt-5' style={{ fontFamily: 'baloo-semi' }}>
+              History
+            </Text>
+          </View>
         <ScrollView className="p-6">
           {topics.map((topic) => (
-            <View key={topic._id} className="bg-white rounded-lg p-4 mb-4 shadow">
+            <View key={topic._id} className="bg-transparent rounded-2xl p-4 mb-4 shadow border-[#ffffff] border-4">
               <Image source={{ uri: topic.imageUrl }} className="w-full h-48 rounded-lg mb-2" />
-              <Text className="text-xl font-bold mb-1">{topic.TopicName}</Text>
-              <Text className="text-sm text-gray-600">{new Date(topic.createdAt).toLocaleDateString()}</Text>
+              <Text className="text-xl mb-1 text-[#ffffff]"  style={{ fontFamily: 'nunito-bold' }}>{topic.TopicName}</Text>
+              <Text className="text-sm  text-[#ffffff]">{new Date(topic.createdAt).toLocaleDateString()}</Text>
             </View>
           ))}
         </ScrollView>

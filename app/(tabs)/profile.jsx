@@ -128,7 +128,13 @@ export default function Profile() {
         <View className="flex-1 justify-center items-center">
           {step === 0 ? (
             <>
-              <Text>Profile</Text>
+              
+              <View className='flex items-center mt-4'>
+
+          <Text className='text-5xl text-[#FFFFFF] mb-12 pt-5' style={{ fontFamily: 'baloo-semi' }}>
+     Hello {newFullName}
+          </Text>
+        </View>
               <View className="w-[90%] flex flex-row gap-6  items-center justify-center">
                 <LinearGradient
                   colors={[

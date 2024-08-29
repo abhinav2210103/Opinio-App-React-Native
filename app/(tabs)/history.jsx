@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, Image, SafeAreaView, ScrollView, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import AppLoader from "../../components/AppLoader";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,6 +19,7 @@ export default function History() {
       } catch (err) {
         console.error('Error fetching topics:', err);
         setError('Failed to fetch topics');
+        ToastAndroid.show('Failed to fetch topics', ToastAndroid.SHORT);
       } finally {
         setLoading(false);
       }
@@ -39,17 +40,21 @@ export default function History() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-          <View className='flex items-center mt-16'>
-            <Text className='text-5xl text-[#FFFFFF] mb-2  pt-5' style={{ fontFamily: 'baloo-semi' }}>
-         Previous Topics
-            </Text>
-          </View>
+        <View className='flex items-center mt-16'>
+          <Text className='text-5xl text-[#FFFFFF] mb-2 pt-5' style={{ fontFamily: 'baloo-semi' }}>
+            Previous Topics
+          </Text>
+        </View>
         <ScrollView className="p-6">
           {topics.map((topic) => (
             <View key={topic._id} className="bg-transparent rounded-2xl p-4 mb-4 shadow border-[#ffffff] border-4">
               <Image source={{ uri: topic.imageUrl }} className="w-full h-48 rounded-lg mb-2" />
-              <Text className="text-xl mb-1 text-[#ffffff]"  style={{ fontFamily: 'nunito-bold' }}>{topic.TopicName}</Text>
-              <Text className="text-sm  text-[#ffffff]">{new Date(topic.createdAt).toLocaleDateString()}</Text>
+              <Text className="text-xl mb-1 text-[#ffffff]" style={{ fontFamily: 'nunito-bold' }}>
+                {topic.TopicName}
+              </Text>
+              <Text className="text-sm text-[#ffffff]">
+                {new Date(topic.createdAt).toLocaleDateString()}
+              </Text>
             </View>
           ))}
         </ScrollView>

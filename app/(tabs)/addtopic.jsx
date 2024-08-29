@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, SafeAreaView, TouchableOpacity, Image, ToastAndroid } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 import File from '../../assets/images/file.svg';
 import LoginButton from '../../assets/images/LoginButton';
+import AppLoader from "../../components/AppLoader";
+
 
 export default function Addtopic() {
   const [suggestionText, setSuggestionText] = useState('');
@@ -25,7 +28,7 @@ export default function Addtopic() {
 
   const addSuggestion = async () => {
     if (!suggestionText || !selectedImage) {
-      alert('Please fill in all fields and select an image.');
+      ToastAndroid.show('Please fill in all fields and select an image.', ToastAndroid.SHORT);
       return;
     }
 
@@ -47,12 +50,12 @@ export default function Addtopic() {
         withCredentials: true,
       });
 
-      alert('Suggestion submitted successfully');
+      ToastAndroid.show('Suggestion submitted successfully', ToastAndroid.SHORT);
       setSuggestionText('');
       setSelectedImage(null);
     } catch (err) {
       console.error('Error submitting suggestion:', err);
-      alert('Failed to submit suggestion');
+      ToastAndroid.show('Failed to submit suggestion', ToastAndroid.SHORT);
     } finally {
       setLoading(false);
     }

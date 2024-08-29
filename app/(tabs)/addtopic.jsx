@@ -7,7 +7,6 @@ import File from '../../assets/images/file.svg';
 import LoginButton from '../../assets/images/LoginButton';
 import AppLoader from "../../components/AppLoader";
 
-
 export default function Addtopic() {
   const [suggestionText, setSuggestionText] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
@@ -69,41 +68,45 @@ export default function Addtopic() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-        <View className='flex items-center mt-16'>
-          <Text className='text-4xl text-[#FFFFFF] mb-2 pt-5' style={{ fontFamily: 'baloo-semi' }}>
-            What's on your mind? Share your idea for tomorrow's buzz!
-          </Text>
-
-          <View className='w-[80%] mt-5'>
-            <Text className='text-base text-[#FFFFFF] mb-2 ml-2' style={{ fontFamily: 'nunito-bold' }}>
-              Topic
+        {loading ? (
+          <AppLoader />
+        ) : (
+          <View className='flex items-center mt-16'>
+            <Text className='text-4xl text-[#FFFFFF] mb-2 pt-5' style={{ fontFamily: 'baloo-semi' }}>
+              What's on your mind? Share your idea for tomorrow's buzz!
             </Text>
-            <View className='flex-row items-center border-2 border-white rounded-2xl h-14'>
-              <TextInput
-                value={suggestionText}
-                onChangeText={setSuggestionText}
-                className='flex-1 text-white px-3 text-xl'
-                placeholder="Enter your suggestion"
-                placeholderTextColor="#aaa"
-              />
+
+            <View className='w-[80%] mt-5'>
+              <Text className='text-base text-[#FFFFFF] mb-2 ml-2' style={{ fontFamily: 'nunito-bold' }}>
+                Topic
+              </Text>
+              <View className='flex-row items-center border-2 border-white rounded-2xl h-14'>
+                <TextInput
+                  value={suggestionText}
+                  onChangeText={setSuggestionText}
+                  className='flex-1 text-white px-3 text-xl'
+                  placeholder="Enter your suggestion"
+                  placeholderTextColor="#aaa"
+                />
+              </View>
+
+              <TouchableOpacity onPress={handleImagePick} className='border-2 border-white rounded-2xl h-36 mt-10 flex justify-center items-center'>
+                <File />
+              </TouchableOpacity>
             </View>
 
-            <TouchableOpacity onPress={handleImagePick} className='border-2 border-white rounded-2xl h-36 mt-10 flex justify-center items-center'>
-              <File />
+            {selectedImage && (
+              <Image source={{ uri: selectedImage }} className="w-40 h-40 mt-5 rounded-xl" />
+            )}
+
+            <TouchableOpacity onPress={addSuggestion} className='flex justify-center items-center mt-10'> 
+              <LoginButton />
+              <Text className='absolute text-[#FFFFFF] text-lg ' style={{ fontFamily: 'mulish-black' }}>
+                Submit
+              </Text>
             </TouchableOpacity>
           </View>
-
-          {selectedImage && (
-            <Image source={{ uri: selectedImage }} className="w-40 h-40 mt-5 rounded-xl" />
-          )}
-
-          <TouchableOpacity onPress={addSuggestion} className='flex justify-center items-center mt-10'> 
-            <LoginButton />
-            <Text className='absolute text-[#FFFFFF] text-lg ' style={{ fontFamily: 'mulish-black' }}>
-              Submit
-            </Text>
-          </TouchableOpacity>
-        </View>
+        )}
       </LinearGradient>
     </SafeAreaView>
   );

@@ -39,7 +39,7 @@ export default function HomeScreen() {
 
   if (error) {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <SafeAreaView className="flex-1 justify-center items-center">
         <Text>{error}</Text>
       </SafeAreaView>
     );
@@ -59,7 +59,9 @@ export default function HomeScreen() {
           </View>
           <Topic topic={topic} />
           <ScrollView>
-            <Blogs blogs={blogs} />
+            <View className="bg-[#2F2753] p-4 rounded-lg">
+              <Blogs blogs={blogs} />
+            </View>
           </ScrollView>
         </View>
       </LinearGradient>

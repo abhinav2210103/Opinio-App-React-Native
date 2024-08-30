@@ -128,7 +128,13 @@ export default function Profile() {
         <View className="flex-1 justify-center items-center">
           {step === 0 ? (
             <>
-              <Text>Profile</Text>
+              
+              <View className='flex items-center mt-4'>
+
+          <Text className='text-5xl text-[#FFFFFF] mb-12 pt-5' style={{ fontFamily: 'baloo-semi' }}>
+     Hello {newFullName}
+          </Text>
+        </View>
               <View className="w-[90%] flex flex-row gap-6  items-center justify-center">
                 <LinearGradient
                   colors={[
@@ -139,6 +145,7 @@ export default function Profile() {
                   end={{ x: 1, y: 1 }}
                   className="rounded-2xl w-[45%]"
                 >
+                  
                   <View className="h-36 justify-center items-center">
                     <Likes />
                     <View>
@@ -220,6 +227,7 @@ export default function Profile() {
                     </Text>
                   </TouchableOpacity>
                 </LinearGradient>
+
                 <LinearGradient
                   colors={[
                     "rgba(255, 255, 255, 0.1)",
@@ -249,6 +257,7 @@ export default function Profile() {
               >
                 Edit Your Profile
               </Text>
+              
               <Text
                 className="text-[#ffffff] text-base mt-5 mb-1"
                 style={{ fontFamily: "nunito-bold" }}

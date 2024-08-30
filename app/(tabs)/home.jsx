@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, SafeAreaView,ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import axios from 'axios';
 import Blogs from '../../components/Blogs';
 import Topic from '../../components/Topic';
 import AppLoader from "../../components/AppLoader";
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen() {
   const [topic, setTopic] = useState(null);
@@ -15,7 +15,7 @@ export default function HomeScreen() {
   useEffect(() => {
     const fetchCurrentTopic = async () => {
       try {
-        const response = await axios.get( `${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`, {
+        const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`, {
           withCredentials: true,
         });
         setTopic(response.data);
@@ -23,7 +23,6 @@ export default function HomeScreen() {
           withCredentials: true,
         });
         setBlogs(blogsResponse.data.blogs);
-        // console.log(blogsResponse.data.blogs);
       } catch (err) {
         console.error('Error fetching current topic:', err);
         setError('Failed to fetch topic');
@@ -34,25 +33,38 @@ export default function HomeScreen() {
     fetchCurrentTopic();
   }, []);
 
-  {loading && <AppLoader />}
+  if (loading) {
+    return <AppLoader />;
+  }
 
   if (error) {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <SafeAreaView className="flex-1 justify-center items-center">
         <Text>{error}</Text>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView className='p-5'>
-      <View className='mb-3'>
-        <Text className='text-3xl font-bold'>Welcome</Text>
-      </View>
-       <Topic topic={topic} />
-       <ScrollView>
-      <Blogs blogs={blogs} />
-      </ScrollView>
+    <SafeAreaView className="flex-1">
+      <LinearGradient
+        colors={['hsla(242, 47%, 13%, 1)', 'hsla(256, 31%, 23%, 1)']}
+        className="flex-1"
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0 }}
+      >
+        <View className='p-5'>
+          <View className='mb-3'>
+            <Text className='text-3xl font-bold text-white'>Welcome</Text>
+          </View>
+          <Topic topic={topic} />
+          <ScrollView>
+            <View className="bg-[#2F2753] p-4 rounded-lg">
+              <Blogs blogs={blogs} />
+            </View>
+          </ScrollView>
+        </View>
+      </LinearGradient>
     </SafeAreaView>
   );
 }

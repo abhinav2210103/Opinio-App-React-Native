@@ -145,6 +145,7 @@ export default function Profile() {
                   end={{ x: 1, y: 1 }}
                   className="rounded-2xl w-[45%]"
                 >
+                  
                   <View className="h-36 justify-center items-center">
                     <Likes />
                     <View>
@@ -226,6 +227,7 @@ export default function Profile() {
                     </Text>
                   </TouchableOpacity>
                 </LinearGradient>
+
                 <LinearGradient
                   colors={[
                     "rgba(255, 255, 255, 0.1)",
@@ -255,6 +257,7 @@ export default function Profile() {
               >
                 Edit Your Profile
               </Text>
+              
               <Text
                 className="text-[#ffffff] text-base mt-5 mb-1"
                 style={{ fontFamily: "nunito-bold" }}

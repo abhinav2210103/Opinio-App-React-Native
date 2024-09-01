@@ -4,7 +4,9 @@ import { View, Text } from 'react-native';
 const Blogs = ({ blogs }) => {
   return (
     <View className='mt-5 px-4'>
-      <Text className='text-xl font-bold'>Recent Blogs:</Text>
+      <View className='flex justify-center items-center mb-2'>
+      <Text className='text-xl text-[#ffffff] font-bold'>Top Opinions</Text>
+      </View>
       {blogs.length > 0 ? (
         blogs.map((blog) => (
           <View key={blog._id} className='border-b border-gray-300 py-2 mb-3'>

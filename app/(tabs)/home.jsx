@@ -5,6 +5,7 @@ import Blogs from '../../components/Blogs';
 import Topic from '../../components/Topic';
 import AppLoader from "../../components/AppLoader";
 import { LinearGradient } from 'expo-linear-gradient';
+import Line from '../../assets/images/line.svg'; 
 
 export default function HomeScreen() {
   const [topic, setTopic] = useState(null);
@@ -53,14 +54,17 @@ export default function HomeScreen() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-        <View className='p-5'>
+        <View>
           <View className='mb-3'>
             <Text className='text-3xl font-bold text-white'>Welcome</Text>
           </View>
-          <Topic topic={topic} />
+          <Topic topic={topic}/>
           <ScrollView>
-            <View className="bg-[#2F2753] p-4 rounded-lg">
-              <Blogs blogs={blogs} />
+            <View className="bg-[#2F2753] mx-1 flex rounded-3xl">
+              <View className='flex justify-center items-center mt-5'>
+              <Line/>
+              </View>
+              <Blogs blogs={blogs}/>
             </View>
           </ScrollView>
         </View>

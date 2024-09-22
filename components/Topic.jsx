@@ -7,13 +7,17 @@ const Topic = ({ topic }) => {
       {topic ? (
         <>
           {topic.imageUrl && (
-            <Image
-              source={{ uri: topic.imageUrl }}
-              style={{ width: '100%', height: 200, marginTop: 10}}
-              className='rounded-lg'
-            />
+            <View className='flex justify-center items-center'>
+              <Image
+                source={{ uri: topic.imageUrl }}
+                style={{ width: '80%', height: 200, marginTop: 10}}
+                className='rounded-lg'
+              />
+            </View>
           )}
-           <Text className='text-2xl font-bold my-2 mx-4'>{topic.name}</Text>
+          <View className='flex justify-center items-center'>
+            <Text className='text-2xl mt-2 text-[#ffffff]' style={{ fontFamily: 'baloo-semi'}}>{topic.name}</Text>
+          </View>
         </>
       ) : (
         <Text>No topic available</Text>

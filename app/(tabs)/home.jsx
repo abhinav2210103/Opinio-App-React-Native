@@ -62,29 +62,30 @@ export default function HomeScreen() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-        <View className='mt-4'>
+        <View className='mt-6'>
           <View className="flex items-center justify-center flex-row gap-2 mt-2">
-            <View className="relative w-12 h-12 flex items-center justify-center mt-4">
+            <View className="relative w-12 h-12 flex items-center justify-center mt-2">
               <LogoOuter width={40} height={40} />
               <View className="absolute">
                 <Logoinner width={25} height={25} />
               </View>
             </View>
             <View>
-            <Text className="text-3xl font-bold text-white" style={{ fontFamily: 'baloo-semi' }}>
+            <Text className="text-3xl text-white" style={{ fontFamily: 'nunito-bold' }}>
               Today’s Topic
             </Text>
             </View>
           </View>
           <Topic topic={topic} />
+          <View className="bg-[#2F2753] mx-1 flex rounded-3xl">
+            <View className='h-6 w-[100%]'></View>
           <ScrollView>
-            <View className="bg-[#2F2753] mx-1 flex rounded-3xl">
-              <View className="flex justify-center items-center mt-5">
+              <View className="flex justify-center items-center">
                 <Line />
               </View>
               <Blogs blogs={blogs} />
-            </View>
           </ScrollView>
+          </View>
         </View>
       </LinearGradient>
     </SafeAreaView>

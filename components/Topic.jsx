@@ -16,7 +16,7 @@ const Topic = ({ topic }) => {
             </View>
           )}
           <View className='flex justify-center items-center'>
-            <Text className='text-2xl mt-2 text-[#ffffff]' style={{ fontFamily: 'baloo-semi'}}>{topic.name}</Text>
+            <Text className='text-3xl mt-2 text-[#ffffff]' style={{ fontFamily: 'baloo-semi'}}>{topic.name}</Text>
           </View>
         </>
       ) : (

@@ -12,36 +12,43 @@ import LogoOuter from "../../assets/images/logoouter.svg";
 export default function HomeScreen() {
   const [topic, setTopic] = useState(null);
   const [blogs, setBlogs] = useState([]);
+  const [likedBlogs, setLikedBlogs] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
-    const fetchCurrentTopic = async () => {
-      try {
+    const fetchCurrentTopicAndLikes = async () => {
+      try {  
         const response = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`,
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
         setTopic(response.data);
+    
         const blogsResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/blog/all`,
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
         setBlogs(blogsResponse.data.blogs);
+    
+        const likesResponse = await axios.get(
+          `${process.env.EXPO_PUBLIC_BASE_URL}/blog/likes`,
+          { withCredentials: true }
+        );
+        const initialLikedState = {};
+        likesResponse.data.likedBlogs.forEach((blog) => {
+          initialLikedState[blog._id] = true;
+        });
+        setLikedBlogs(initialLikedState);
       } catch (err) {
-        console.error("Error fetching current topic:", err);
-        setError("Failed to fetch topic");
+        console.error("Error fetching data:", err.response ? err.response.data : err);
+        setError("Failed to fetch data");
       } finally {
         setLoading(false);
       }
     };
-    fetchCurrentTopic();
+    fetchCurrentTopicAndLikes();
   }, []);
-
+  
   if (loading) {
     return <AppLoader />;
   }
@@ -71,20 +78,20 @@ export default function HomeScreen() {
               </View>
             </View>
             <View>
-            <Text className="text-3xl text-white" style={{ fontFamily: 'nunito-bold' }}>
-              Today’s Topic
-            </Text>
+              <Text className="text-3xl text-white" style={{ fontFamily: 'nunito-bold' }}>
+                Today’s Topic
+              </Text>
             </View>
           </View>
           <Topic topic={topic} />
           <View className="bg-[#2F2753] mx-1 flex rounded-3xl">
             <View className='h-6 w-[100%]'></View>
-          <ScrollView>
+            <ScrollView>
               <View className="flex justify-center items-center">
                 <Line />
               </View>
-              <Blogs blogs={blogs} />
-          </ScrollView>
+              <Blogs blogs={blogs} likedBlogs={likedBlogs} />
+            </ScrollView>
           </View>
         </View>
       </LinearGradient>

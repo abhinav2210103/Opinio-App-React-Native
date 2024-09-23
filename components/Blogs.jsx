@@ -4,18 +4,15 @@ import avatarImage from "../assets/images/avatar.png";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import axios from "axios";
 
-const Blogs = ({ blogs }) => {
-  const [likedBlogs, setLikedBlogs] = useState({});
+const Blogs = ({ blogs, likedBlogs: initialLikedBlogs }) => {
+  const [likedBlogs, setLikedBlogs] = useState(initialLikedBlogs);
   const [blogLikes, setBlogLikes] = useState({});
 
   useEffect(() => {
-    const initialLikedState = {};
     const initialLikesCountState = {};
     blogs.forEach((blog) => {
-      initialLikedState[blog._id] = blog.isLiked;
       initialLikesCountState[blog._id] = blog.likesCount;
     });
-    setLikedBlogs(initialLikedState);
     setBlogLikes(initialLikesCountState);
   }, [blogs]);
 
@@ -31,17 +28,23 @@ const Blogs = ({ blogs }) => {
 
     try {
       if (isLiked) {
+        // Call the API to unlike the blog
         await axios.post(
-          `${process.env.EXPO_PUBLIC_BASE_URL}/blog/unlike/${blogId}`,{ withCredentials: true }
+          `${process.env.EXPO_PUBLIC_BASE_URL}/blog/unlike/${blogId}`,
+          {},
+          { withCredentials: true }
         );
       } else {
+      
         await axios.post(
-          `${process.env.EXPO_PUBLIC_BASE_URL}/blog/like/${blogId}`,{ withCredentials: true }
+          `${process.env.EXPO_PUBLIC_BASE_URL}/blog/like/${blogId}`,
+          {},
+          { withCredentials: true }
         );
       }
     } catch (error) {
       console.error("Error liking/unliking blog:", error);
-
+     
       setLikedBlogs((prev) => ({ ...prev, [blogId]: isLiked }));
       setBlogLikes((prev) => ({
         ...prev,
@@ -71,7 +74,7 @@ const Blogs = ({ blogs }) => {
                 {blog.createdBy?.fullName || "Anonymous"}
               </Text>
               <Text className="text-[#ffffff] pl-1 pt-1" style={{ fontFamily: "nunito" }}>
-             {blog.thoughts}
+                {blog.thoughts}
               </Text>
               <Text className="text-[#AEACAC] pt-1 pl-1">Reply</Text>
             </View>

@@ -15,21 +15,22 @@ export default function HomeScreen() {
   const [likedBlogs, setLikedBlogs] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchCurrentTopicAndLikes = async () => {
-      try {  
-        const response = await axios.get(
+      try {
+        const topicResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`,
           { withCredentials: true }
         );
-        setTopic(response.data);
-    
+        setTopic(topicResponse.data);
+
         const blogsResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/blog/all`,
           { withCredentials: true }
         );
         setBlogs(blogsResponse.data.blogs);
-    
+
         const likesResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/blog/likes`,
           { withCredentials: true }
@@ -48,7 +49,7 @@ export default function HomeScreen() {
     };
     fetchCurrentTopicAndLikes();
   }, []);
-  
+
   if (loading) {
     return <AppLoader />;
   }

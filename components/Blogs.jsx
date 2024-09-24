@@ -28,7 +28,6 @@ const Blogs = ({ blogs, likedBlogs: initialLikedBlogs }) => {
 
     try {
       if (isLiked) {
-        // Call the API to unlike the blog
         await axios.post(
           `${process.env.EXPO_PUBLIC_BASE_URL}/blog/unlike/${blogId}`,
           {},

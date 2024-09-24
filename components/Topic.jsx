@@ -6,17 +6,22 @@ const Topic = ({ topic }) => {
     <View>
       {topic ? (
         <>
-          {topic.imageUrl && (
-            <View className='flex justify-center items-center'>
+          <View className='flex justify-center items-center'>
+            {topic.imageUrl ? (
               <Image
                 source={{ uri: topic.imageUrl }}
-                style={{ width: '80%', height: 200, marginTop: 10}}
+                style={{ width: '80%', height: 200, marginTop: 10 }}
                 className='rounded-lg'
               />
-            </View>
-          )}
+            ) : (
+              <View style={{ width: '80%', height: 200, marginTop: 10 }} className='rounded-lg bg-[#4B3A67]' />
+            )}
+          </View>
+          
           <View className='flex justify-center items-center'>
-            <Text className='text-3xl mt-2 text-[#ffffff]' style={{ fontFamily: 'baloo-semi'}}>{topic.name}</Text>
+            <Text className='text-3xl mt-2 text-[#ffffff]' style={{ fontFamily: 'baloo-semi' }}>
+              {topic.name}
+            </Text>
           </View>
         </>
       ) : (

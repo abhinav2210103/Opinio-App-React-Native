@@ -22,5 +22,5 @@ export default function Index() {
     return <AppLoader />;;
   }
 
-  return <Redirect href={user ? '/home' : '/home'} />;
+  return <Redirect href={user ? '/home' : '/welcome'} />;
 }

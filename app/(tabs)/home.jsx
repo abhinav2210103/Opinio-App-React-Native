@@ -127,7 +127,7 @@ export default function HomeScreen() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-        <View className="mt-6">
+        <View className="mt-6"></View>
           <View className="flex items-center justify-center flex-row gap-2 mt-2">
             <View className="relative w-12 h-12 flex items-center justify-center mt-2">
               <LogoOuter width={40} height={40} />
@@ -142,37 +142,36 @@ export default function HomeScreen() {
             </View>
           </View>
           <Topic topic={topic} />
-          <View className="bg-[#2F2753] mx-1 flex rounded-3xl">
-            <View className="h-6 w-[100%]" />
-            <ScrollView>
+          <View className="bg-[#2F2753] mx-1 flex-1 rounded-t-3xl">
+            <View className="h-6 w-full" />
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
               <View className="flex justify-center items-center">
                 <Line />
               </View>
-              <Blogs blogs={blogs} likedBlogs={likedBlogs} />
+              <Blogs blogs={blogs} likedBlogs={likedBlogs}/>
             </ScrollView>
           </View>
-        </View>
 
-        <View className="absolute bottom-0 left-0 right-0 bg-[#2F2753] px-4 py-2 flex flex-row items-center">
-          <TextInput
-            value={inputValue}
-            onChangeText={(text) => setInputValue(text)}
-            placeholder="Share your thoughts..."
-            placeholderTextColor="#aaa"
-            className="flex-1 text-white bg-[#4B3A67] rounded-xl px-4 py-2"
-            style={{ fontFamily: 'nunito' }}
-            editable={!addingBlog}
-          />
-          <TouchableOpacity
-            onPress={handleSubmitBlog}
-            disabled={addingBlog}
-            className="ml-2 bg-[#6A51C9] rounded-xl px-4 py-2"
-          >
-            <Text className="text-white" style={{ fontFamily: 'nunito-bold' }}>
-              {addingBlog ? "Posting..." : "Post"}
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <View className="bottom-0 left-0 right-0 bg-[#2F2753] px-4 py-2 flex flex-row items-center">
+            <TextInput
+              value={inputValue}
+              onChangeText={(text) => setInputValue(text)}
+              placeholder="Share your thoughts..."
+              placeholderTextColor="#aaa"
+              className="flex-1 text-white bg-[#4B3A67] rounded-xl px-4 py-2"
+              style={{ fontFamily: 'nunito' }}
+              editable={!addingBlog}
+            />
+            <TouchableOpacity
+              onPress={handleSubmitBlog}
+              disabled={addingBlog}
+              className="ml-2 bg-[#6A51C9] rounded-xl px-4 py-2"
+            >
+              <Text className="text-white" style={{ fontFamily: 'nunito-bold' }}>
+                {addingBlog ? "Posting..." : "Post"}
+              </Text>
+            </TouchableOpacity>
+          </View>
       </LinearGradient>
     </SafeAreaView>
   );

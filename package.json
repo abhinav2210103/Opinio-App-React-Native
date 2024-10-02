@@ -48,7 +48,8 @@
     "react-native-svg-transformer": "^1.5.0",
     "react-native-web": "~0.19.10",
     "react-navigation": "^5.0.0",
-    "socket.io-client": "^4.8.0"
+    "socket.io-client": "^4.8.0",
+    "expo-updates": "~0.25.25"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

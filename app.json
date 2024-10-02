@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "progress-1",
-    "slug": "progress-1",
+    "name": "Opinio",
+    "slug": "opinio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.abhi_etw.opinio"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,21 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "0716774e-0c66-493f-9932-588f8bdd68cd"
+      }
+    },
+    "owner": "abhi_etw",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0716774e-0c66-493f-9932-588f8bdd68cd"
     }
   }
 }

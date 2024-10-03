@@ -45,9 +45,9 @@ export default function Welcome() {
                     Sign Up
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handlelogout}>
+                {/* <TouchableOpacity onPress={handlelogout}>
                   <Text>Logout</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
       </LinearGradient>
     </SafeAreaView>

@@ -17,8 +17,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/OpinioP.png",
+        "backgroundColor": "#33294e"
       },
       "package": "com.abhi_etw.opinio"
     },

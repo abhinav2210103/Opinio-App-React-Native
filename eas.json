@@ -12,7 +12,7 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_BASE_URL": "https://thoughts-canvas.onrender.com"
+        "EXPO_PUBLIC_BASE_URL": "$(EXPO_PUBLIC_BASE_URL)"
       }
     }
   },

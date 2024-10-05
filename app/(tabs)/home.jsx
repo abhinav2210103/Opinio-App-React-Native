@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity, BackHandler } from "react-native";
 import axios from "axios";
 import Blogs from "../../components/Blogs";
 import Topic from "../../components/Topic";
@@ -9,13 +9,14 @@ import Line from "../../assets/images/line.svg";
 import Logoinner from "../../assets/images/logoinner.svg";
 import LogoOuter from "../../assets/images/logoouter.svg";
 import io from 'socket.io-client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 const socket = io(BASE_URL, {
   withCredentials: true,
 });
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [topic, setTopic] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [likedBlogs, setLikedBlogs] = useState({});
@@ -23,7 +24,23 @@ export default function HomeScreen() {
   const [error, setError] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [addingBlog, setAddingBlog] = useState(false);
-  const lastPostedBlogId = useRef(null);  
+  const lastPostedBlogId = useRef(null);
+  
+  const backAction = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
+      return true;
+    }
+    return false; 
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     socket.on('newBlog', (newBlog) => {
@@ -50,7 +67,7 @@ export default function HomeScreen() {
           { withCredentials: true }
         );
         setTopic(topicResponse.data);
-  
+
         const blogsResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/blog/all`,
           { withCredentials: true }
@@ -59,7 +76,7 @@ export default function HomeScreen() {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setBlogs(sortedBlogs);
-  
+
         const likesResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/blog/likes`,
           { withCredentials: true }
@@ -77,10 +94,10 @@ export default function HomeScreen() {
     };
     fetchCurrentTopicAndLikes();
   }, []);
-  
+
   const handleSubmitBlog = async () => {
     if (inputValue.trim() === "") return;
-  
+
     setAddingBlog(true);
     try {
       const response = await axios.post(
@@ -88,16 +105,16 @@ export default function HomeScreen() {
         { thoughts: inputValue },
         { withCredentials: true }
       );
-  
+
       if (response.status === 200) {
         const newBlog = response.data.blog;
         lastPostedBlogId.current = newBlog._id;
-  
+
         const updatedBlogs = [newBlog, ...blogs].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setBlogs(updatedBlogs);
-  
+
         setInputValue("");
       }
     } catch (err) {

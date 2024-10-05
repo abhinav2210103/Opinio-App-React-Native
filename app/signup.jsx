@@ -20,6 +20,20 @@ export default function SignupScreen() {
   const router = useRouter();
 
   const handleSignup = async () => {
+    if (!fullName.trim() || !email.trim() || !password.trim()) {
+      ToastAndroid.show('Please fill in all fields', ToastAndroid.LONG);
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      ToastAndroid.show('Please enter a valid email address', ToastAndroid.LONG);
+      return;
+    }
+    if (password.length < 6) {
+      ToastAndroid.show('Password must be at least 6 characters long', ToastAndroid.LONG);
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signup`, {

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Alert, TouchableOpacity, ActivityIndicator, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, ToastAndroid, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,32 +19,35 @@ export default function LoginScreen() {
   const router = useRouter();
 
   const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      ToastAndroid.show('Please fill in both email and password', ToastAndroid.LONG);
+      return;
+    }
+
     setLoading(true);
     try {
-        const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signin`, { email, password });
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/signin`, { email, password });
 
-        if (response.data.msg === 'User Logged In') {
-            const setCookieHeader = response.headers['set-cookie'];
-            if (setCookieHeader && setCookieHeader.length > 0) {
-                const token = setCookieHeader[0].split(';')[0].split('=')[1];
-                axios.defaults.headers.common['Authorization']  = `Bearer ${token}`;
-                console.log(token);
-                login(token);
-                router.push('/home');
-            } else {
-                ToastAndroid.show('Failed to retrieve authentication token', ToastAndroid.LONG);
-            }
+      if (response.data.msg === 'User Logged In') {
+        const setCookieHeader = response.headers['set-cookie'];
+        if (setCookieHeader && setCookieHeader.length > 0) {
+          const token = setCookieHeader[0].split(';')[0].split('=')[1];
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          login(token);
+          router.push('/home');
         } else {
-            ToastAndroid.show(response.data.error || 'Invalid Credentials', ToastAndroid.LONG);
+          ToastAndroid.show('Failed to retrieve authentication token', ToastAndroid.LONG);
         }
+      } else {
+        ToastAndroid.show(response.data.error || 'Invalid Credentials', ToastAndroid.LONG);
+      }
     } catch (error) {
-        console.error('Error during login:', error);
-        const errorMessage = error.response?.data?.error || 'An error occurred during login.';
-        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
+      const errorMessage = error.response?.data?.error || 'An error occurred during login.';
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-};
+  };
 
   return (
     <SafeAreaView className='flex-1'>
@@ -98,7 +101,7 @@ export default function LoginScreen() {
             </View>
             <View className='flex justify-center items-end mr-2 mt-2'>
               <TouchableOpacity onPress={() => router.push('/forgotpassword')}>
-              <Text className='text-[#CD5C5C]' style={{ fontFamily: 'nunito' }}>Forgot Password?</Text>
+                <Text className='text-[#CD5C5C]' style={{ fontFamily: 'nunito' }}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -110,7 +113,7 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={() => router.push('/welcome')}>
+          <TouchableOpacity onPress={() => router.push('/signup')}>
             <Text className='text-[#FFFFFF] mt-5 pb-2' style={{ fontFamily: 'nunito' }}>
               Don't have an account? <Text className='underline'>Sign up</Text>
             </Text>

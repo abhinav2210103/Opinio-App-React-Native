@@ -6,7 +6,8 @@ import {
   Alert,
   TextInput,
   BackHandler,
-  ToastAndroid
+  ToastAndroid,
+  StatusBar
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -118,13 +119,17 @@ export default function Profile() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
       <LinearGradient
         colors={["hsla(242, 47%, 13%, 1)", "hsla(256, 31%, 23%, 1)"]}
         className="flex-1"
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
+         {/* <StatusBar
+        barStyle="light-content"
+        translucent={true} 
+        backgroundColor="rgba(30, 23, 48, 1)"  
+      /> */}
         <View className="flex-1 justify-center items-center">
           {step === 0 ? (
             <>
@@ -335,7 +340,5 @@ export default function Profile() {
           )}
         </View>
       </LinearGradient>
-      {loading && <AppLoader />}
-    </SafeAreaView>
   );
 }

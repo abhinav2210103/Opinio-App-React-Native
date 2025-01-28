@@ -10,7 +10,6 @@ import {
   StatusBar
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
@@ -125,11 +124,6 @@ export default function Profile() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-         {/* <StatusBar
-        barStyle="light-content"
-        translucent={true} 
-        backgroundColor="rgba(30, 23, 48, 1)"  
-      /> */}
         <View className="flex-1 justify-center items-center">
           {step === 0 ? (
             <>

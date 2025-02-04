@@ -144,7 +144,6 @@ export default function HomeScreen({ navigation }) {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-        <View className="mt-6"></View>
           <View className="flex items-center justify-center flex-row gap-2 mt-2">
             <View className="relative w-12 h-12 flex items-center justify-center mt-2">
               <LogoOuter width={40} height={40} />

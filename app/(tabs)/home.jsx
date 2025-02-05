@@ -65,8 +65,10 @@ export default function HomeScreen({ navigation }) {
         const topicResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/topic/get`,
           { withCredentials: true }
+          
         );
         setTopic(topicResponse.data);
+        console.log(topicResponse.data.imageUrl);
 
         const blogsResponse = await axios.get(
           `${process.env.EXPO_PUBLIC_BASE_URL}/blog/all`,

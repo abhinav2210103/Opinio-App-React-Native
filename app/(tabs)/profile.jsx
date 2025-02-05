@@ -117,6 +117,10 @@ export default function Profile() {
     }
   };
 
+  if (loading) {
+    return <AppLoader />;
+  }
+
   return (
       <LinearGradient
         colors={["hsla(242, 47%, 13%, 1)", "hsla(256, 31%, 23%, 1)"]}

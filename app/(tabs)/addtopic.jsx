@@ -60,6 +60,10 @@ export default function Addtopic() {
     }
   };
 
+  if (loading) {
+    return <AppLoader />;
+  }
+
   return (
     <SafeAreaView className="flex-1">
       <LinearGradient
@@ -68,9 +72,6 @@ export default function Addtopic() {
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
       >
-        {loading ? (
-          <AppLoader />
-        ) : (
           <View className='flex items-center mt-16'>
             <Text className='text-4xl text-[#FFFFFF] mb-2 pt-5' style={{ fontFamily: 'baloo-semi' }}>
               What's on your mind? Share your idea for tomorrow's buzz!
@@ -106,7 +107,6 @@ export default function Addtopic() {
               </Text>
             </TouchableOpacity>
           </View>
-        )}
       </LinearGradient>
     </SafeAreaView>
   );
